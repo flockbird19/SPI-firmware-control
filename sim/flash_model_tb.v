@@ -29,7 +29,7 @@ module flash_model_tb (
         if (!cs) begin
             rx_shift = {rx_shift[6:0], mosi}; // Shift previous bits left and add new MOSI bit
             if (bit_count == 7) begin // Check if 8 bit have received or not.
-                $display("Flash Model: received byte %0d = 0x%02h", byte_count, {rx_shift[6:0], mosi});
+                $display("Flash Model: received byte %0d = 0x%02h", byte_count, rx_shift);
                 byte_count = byte_count + 1; // Move to the next byte
                 bit_count = 0; // Prepare for the next byte
                 rx_shift = 8'h00;

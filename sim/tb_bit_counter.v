@@ -27,7 +27,7 @@ module tb_bit_counter;
         // Enable counting
         enable = 1'b1;
         // counting exactly 1 byte; that's 8bit.
-        repeat (8)
+        repeat (9)
             @(posedge clk);
             // Stop counting
         enable = 1'b0;
