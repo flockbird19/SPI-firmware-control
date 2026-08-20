@@ -1,0 +1,17 @@
+# Vivado build and cache folders
+vivado/*.cache/
+vivado/*.hw/
+vivado/*.ip_user_files/
+vivado/*.runs/
+vivado/*.sim/
+vivado/*.jou
+vivado/*.log
+vivado/*.str
+
+# Ignore everything in the vivado folder EXCEPT the project file itself
+vivado/*
+!vivado/*.xpr
+
+# OS generated files
+.DS_Store
+Thumbs.db
