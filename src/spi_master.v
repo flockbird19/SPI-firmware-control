@@ -30,6 +30,7 @@ module spi_master (
 
     // Instantiate PISO Register
     piso_reg u_piso (
+        .clk (clk),
         .sclk (sclk),
         .reset (reset),
         .load (load),

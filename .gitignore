@@ -5,3 +5,11 @@ vivado/
 .DS_Store
 Thumbs.db
 *.swp
+
+# Vivado simulation generated files and directories
+.Xil/
+xsim.dir/
+*.jou
+*.log
+*.pb
+*.wdb
