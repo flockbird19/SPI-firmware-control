@@ -1,13 +1,15 @@
 ///
 // !! this is a standalone Testbench for PISO register
 module tb_piso_reg;
-    reg sclk;
+    reg clk;   // System clock
+    reg sclk;  // SPI clock
     reg reset;
     reg load;
     reg [7:0] parl_in;
     wire serl_out;
 
     piso_reg dut (
+        .clk (clk),    // FIX: Connected missing clock port!
         .sclk (sclk),
         .reset (reset),
         .load (load),
@@ -15,11 +17,13 @@ module tb_piso_reg;
         .serl_out (serl_out)
     );
 
-    always #5 sclk = ~sclk;
+    always #5 clk = ~clk;    // 100MHz System Clock
+    always #20 sclk = ~sclk; // 25MHz SPI Clock
 
     // Test sequence
     initial begin
         // Initial values
+        clk = 1'b0;
         sclk = 1'b0;
         reset = 1'b1;
         load = 1'b0;

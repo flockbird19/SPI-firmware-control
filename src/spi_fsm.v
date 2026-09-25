@@ -10,7 +10,8 @@ module spi_fsm (
     output reg fifo_rd_en, // Tell FIFO to output next byte
     output reg load, // Tell PISO to load the byte
     output reg enable, // Start the clock divider and bit counter
-    output reg fsm_cs // Flash Chip Select (active low)
+    output reg fsm_cs, // Flash Chip Select (active low)
+    output reg rx_fifo_wr_en // Tell RX FIFO to save the byte
 );
 
     // State Encodings
@@ -39,6 +40,7 @@ module spi_fsm (
         load       = 1'b0;
         enable     = 1'b0;
         fsm_cs     = 1'b1; // CS is active low, default to high (deasserted)
+        rx_fifo_wr_en = 1'b0;
 
         // Default Next State
         next_state = state;
@@ -53,6 +55,7 @@ module spi_fsm (
 
             LOAD_BYTE: begin
                 fifo_rd_en = 1'b1; // Trigger a read from the FIFO
+                fsm_cs = 1'b0;     // Prevent CS glitch between multi-byte reads
                 // It takes 1 cycle for sync_fifo to output data,
                 // so the data will be ready when we enter ASSERT_CS
                 next_state = ASSERT_CS;
@@ -70,6 +73,7 @@ module spi_fsm (
 
                 // Wait until the bit_counter says all 8 bits are done
                 if (byte_done) begin
+                    rx_fifo_wr_en = 1'b1; // Trigger RX FIFO to save incoming byte
                     next_state = CHECK;
                 end
             end
